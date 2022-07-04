@@ -13,5 +13,5 @@ https://stacknexus-datanators.atlassian.net/wiki/spaces/TPV/overview?homepageId=
 
 ### File description
 
-. ga-session-bigquery.yml - Google Analytics ingest pipeline through Google Big Query. The yaml file ingests 20 days of data.
-. ga-session-bigquery-1.yml - Google Analytics ingest pipeline through Google Big Query. The yaml file ingests data for each day separately.
+* ga-session-bigquery.yml - Google Analytics ingest pipeline through Google Big Query. The yaml file ingests 20 days of data.
+* ga-session-bigquery-1.yml - Google Analytics ingest pipeline through Google Big Query. The yaml file ingests data for each day separately.
