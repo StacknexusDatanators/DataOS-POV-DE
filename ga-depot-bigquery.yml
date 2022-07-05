@@ -18,3 +18,5 @@ depot:
         email: balaji@stacknexus.io
       files:
         json_keyfile: /Users/astrobalaji/Documents/stacknexus/tmdc_poc/creds/dataos-346613-97989dfd4baa.json
+  spec:                                              # Data source specific configurations
+      project: dataos-346613

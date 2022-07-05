@@ -1,18 +1,18 @@
 version: v1beta1
-name: wf-bigquery-sample-03
+name: wf-bigquery-sample
 type: workflow
 description: To read data from bigquery
-tags: 
+tags:
   - bigquery
   - ga_session
-workflow: 
+workflow:
   schedule:
     cron: '*/7 * * * *'
-    endOn: '2022-07-02T17:00:00Z'
+    endOn: '2022-07-05T10:00:00Z'
     concurrencyPolicy: Forbid
   title: BigQuery Workflow
   dag:
-    - name: read-bigquery-sample-03
+    - name: read-bigquery-sample
       title: Read Bigquery GA Session Dataset
       description: To read ga Session data from BQ
       spec:
@@ -27,19 +27,19 @@ workflow:
             memory: 1000m
           executor:
             coreLimit: 1200m
-            cores: 1 
+            cores: 1
             instances: 5
             memory: 1000m
           job:
             inputs:
               - name: ga_input
-                dataset: dataos://gabigquery:ga_session_dataset/ga_session_data
-                incremental:  
+                dataset: dataos://gabigquery:gadata/gadatable
+                incremental:
                   context: ga_session_incremental_1
                   sql: select * from ga_session_incremental_1 where date = '$|start|'
                   keys:
                     - name: start
-                      sql: select "20170501"
+                      sql: select "20210701"
 
                     - name: end
                       sql: select cast('$|start|' as int) + 1
@@ -54,7 +54,7 @@ workflow:
             steps:
               - sink:
                   - sequenceName: ga_input
-                    datasetName: ga_session_dataset_r_03
+                    datasetName: ga_session_dataset_retail
                     outputName: output01
                     outputType: Iceberg
                     description: GA Session Dataset from BigQuery
@@ -71,7 +71,7 @@ workflow:
                 # sequence:
                 #   - name: repartitioned_input_date
                 #     sql: SELECT /*+ REPARTITION(date) */ * FROM ga_input
-                  
+
                 #   - name: filtered_ga_data
                 #     sql: select * from repartitioned_input_date where cast(date as int) between 20170501 AND 20170801
 
@@ -80,9 +80,9 @@ workflow:
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/ga_session_dataset_r_03?acl=rw
+          dataset: dataos://icebase:sample/ga_session_dataset_retail?acl=rw
           action:
             name: set_version
             value: latest
       dependencies:
-        - read-bigquery-sample-03
+        - read-bigquery-sample
