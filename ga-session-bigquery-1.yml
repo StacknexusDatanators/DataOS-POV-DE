@@ -1,5 +1,5 @@
 version: v1beta1
-name: wf-bigquery-sample
+name: wf-bigquery-retail
 type: workflow
 description: To read data from bigquery
 tags:
@@ -8,11 +8,11 @@ tags:
 workflow:
   schedule:
     cron: '*/7 * * * *'
-    endOn: '2022-07-05T10:00:00Z'
+    endOn: '2022-07-06T00:00:00Z'
     concurrencyPolicy: Forbid
   title: BigQuery Workflow
   dag:
-    - name: read-bigquery-sample
+    - name: read-bigquery-retail
       title: Read Bigquery GA Session Dataset
       description: To read ga Session data from BQ
       spec:
@@ -20,6 +20,9 @@ workflow:
           - bigquery
           - connect
         stack: flare:3.0
+        envs:
+          HERA_SSL: "false"
+          HERA_BASE_URL: "https://flexible-buffalo.dataos.app/hera"
         flare:
           driver:
             coreLimit: 1200m
@@ -35,14 +38,14 @@ workflow:
               - name: ga_input
                 dataset: dataos://gabigquery:gadata/gadatable
                 incremental:
-                  context: ga_session_incremental_1
-                  sql: select * from ga_session_incremental_1 where date = '$|start|'
+                  context: ga_session_incremental_2
+                  sql: select * from ga_session_incremental_2 where date = '$|start|'
                   keys:
                     - name: start
                       sql: select "20210701"
 
                     - name: end
-                      sql: select cast('$|start|' as int) + 1
+                      sql: select date_format(date_add(to_date('$|start|', 'yyyyMMdd'),1), 'yyyyMMdd')
                   state:
                     - key: start
                       value: end
@@ -85,4 +88,4 @@ workflow:
             name: set_version
             value: latest
       dependencies:
-        - read-bigquery-sample
+        - read-bigquery-retail
