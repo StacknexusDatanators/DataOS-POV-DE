@@ -8,7 +8,7 @@ depot:
   type: REDSHIFT
   description: "Redshift retail sample data"
   spec:
-    host: "stacknexus-redshift.cccfst2pznzg.us-east-2.redshift.amazonaws.com"
+    host: stacknexus-redshift.cccfst2pznzg.us-east-2.redshift.amazonaws.com
     port: 5439
     database: "stacknexus"
     bucket: "tmdc-dataos-rubik"

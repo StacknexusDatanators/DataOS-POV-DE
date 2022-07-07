@@ -1,0 +1,62 @@
+version: v1beta1
+name: wf-redshift-retail-ts
+type: workflow
+description: To read data from bigquery
+tags:
+  - redshift
+  - retail
+workflow:
+  dag:
+    - name: read-redshift-retail-ts
+      title: Read Redshift Retail Dataset
+      description: Reads the data from amazon redshift
+      spec:
+        tags:
+          - redshift
+          - connect
+        stack: flare:3.0
+        envs:
+          HERA_SSL: "false"
+          HERA_BASE_URL: "https://flexible-buffalo.dataos.app/hera"
+        flare:
+          driver:
+            coreLimit: 1200m
+            cores: 1
+            memory: 1000m
+          executor:
+            coreLimit: 1200m
+            cores: 1
+            instances: 5
+            memory: 1000m
+          job:
+            inputs:
+              - name: transactions_input
+                dataset: dataos://redshiftstacknexus:public/transactions
+                format: redshift
+            logLevel: INFO
+            outputs:
+              - name: transactions_output
+                depot: dataos://icebase:sample?acl=rw
+            steps:
+              - sink:
+                  - sequenceName: transactions_input
+                    datasetName: retail_transactions
+                    outputName: transactions_output
+                    outputType: Iceberg
+                    description: transactions data from redshift
+                    title: retail transactions
+                    tags:
+                      - redshift
+                      - retail
+                    outputOptions:
+                      saveMode: overwrite
+    - name: dataos-tool-from-rs
+      spec:
+        stack: toolbox
+        toolbox:
+          dataset: dataos://icebase:sample/retail_transactions?acl=rw
+          action:
+            name: set_version
+            value: latest
+      dependencies:
+        - read-redshift-retail-ts
