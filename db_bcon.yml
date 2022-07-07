@@ -1,0 +1,11 @@
+version: v1beta1
+name: retail                                         # database name
+type: database
+description: citybase database for storing city sample data.
+tags:
+  - database
+database:
+  migrate:
+    includes:
+      - /home/nehawork/Documents/tmdc_project        # all up & down sql files.
+    command: up                                       # in case of drop table, write down.
