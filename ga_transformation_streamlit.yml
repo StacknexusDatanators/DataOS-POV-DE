@@ -9,7 +9,7 @@ tags:
   - retail
 workflow:
   dag:
-    - name: ga-visits-transform
+    - name: ga-visits-transform-01
       title: read visits from google analytics
       description: Reads data from google analytics for visits in streamlit
       spec:
@@ -34,7 +34,7 @@ workflow:
             inputs:
               - name: ga_input
                 dataset: dataos://icebase:sample/ga_session_dataset_retail
-                format: Iceberg
+                format: iceberg
             logLevel: INFO
             outputs:
               - name: ga_observability
@@ -42,7 +42,7 @@ workflow:
             steps:
               - sink:
                   - sequenceName: ga_data_tranform
-                    datasetName: ga_observability
+                    datasetName: ga_observability_01
                     outputName: ga_observability
                     outputType: Iceberg
                     description: ga data for observability
@@ -62,9 +62,9 @@ workflow:
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/ga_observability?acl=rw
+          dataset: dataos://icebase:sample/ga_observability_01?acl=rw
           action:
             name: set_version
             value: latest
       dependencies:
-        - ga-visits-transform
+        - ga-visits-transform-01
