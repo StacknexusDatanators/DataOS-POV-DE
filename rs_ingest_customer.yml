@@ -33,6 +33,7 @@ workflow:
               - name: customer_input
                 dataset: dataos://redshiftstacknexus:public/customer
                 format: redshift
+                schema: dataos://thirdparty01:schemas/stacknexus/customer.avsc
             logLevel: INFO
             outputs:
               - name: customer_output

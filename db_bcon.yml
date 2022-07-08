@@ -7,5 +7,5 @@ tags:
 database:
   migrate:
     includes:
-      - /home/nehawork/Documents/tmdc_project        # all up & down sql files.
+      - /Users/astrobalaji/Documents/stacknexus/tmdc_poc/gitrepo/data_ingest_pipes        # all up & down sql files.
     command: up                                       # in case of drop table, write down.
