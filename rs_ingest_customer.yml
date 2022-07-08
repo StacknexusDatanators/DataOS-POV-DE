@@ -1,5 +1,5 @@
 version: v1beta1
-name: wf-redshift-retail
+name: wf-redshift-retail-01
 type: workflow
 description: To read data from bigquery
 tags:
@@ -7,7 +7,7 @@ tags:
   - retail
 workflow:
   dag:
-    - name: read-redshift-retail-customer
+    - name: read-redshift-retail-customer-01
       title: Read Redshift Retail Dataset
       description: Reads the data from amazon redshift
       spec:
@@ -41,7 +41,7 @@ workflow:
             steps:
               - sink:
                   - sequenceName: customer_input
-                    datasetName: retail_customer
+                    datasetName: retail_customer_01
                     outputName: customer_output
                     outputType: Iceberg
                     description: customer data from redshift
@@ -51,13 +51,26 @@ workflow:
                       - retail
                     outputOptions:
                       saveMode: overwrite
+                sequence:
+                  - name: changed_datatypes
+                    sql: select * from customer_input
+                    functions:
+                    - name: drop
+                      columns: 
+                        - __metadata_dataos_run_mapper_id
+                    - name: set_type
+                      columns:
+                        birthdate: date
+                        age: integer
+                        number_of_children: integer
+                        annual_income: integer      
     - name: dataos-tool-from-rs
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/retail_customer?acl=rw
+          dataset: dataos://icebase:sample/retail_customer_01?acl=rw
           action:
             name: set_version
             value: latest
       dependencies:
-        - read-redshift-retail
+        - read-redshift-retail-customer-01
