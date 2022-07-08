@@ -7,7 +7,7 @@ tags:
   - retail
 workflow:
   dag:
-    - name: read-redshift-retail-ts-01
+    - name: read-redshift-retail-ts-02
       title: Read Redshift Retail Dataset
       description: Reads the data from amazon redshift
       spec:
@@ -40,7 +40,7 @@ workflow:
             steps:
               - sink:
                   - sequenceName: transactions_input
-                    datasetName: retail_transactions_01
+                    datasetName: retail_transactions_02
                     outputName: transactions_output
                     outputType: Iceberg
                     description: transactions data from redshift
@@ -52,22 +52,23 @@ workflow:
                       saveMode: overwrite
                 sequence:
                   - name: changed_datatypes
-                    sql: selct * from transactions_input
+                    sql: select * from transactions_input
                     functions:
                     - name: drop
                       columns:
                       - __metadata_dataos_run_mapper_id
                     - name: set_type
-                      columns:  
-                        productprice: integer
-                        quantity: integer
+                      columns:
+                        productprice: int
+                        quantity: int
+                        time: timestamp
     - name: dataos-tool-from-rs
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/retail_transactions_01?acl=rw
+          dataset: dataos://icebase:sample/retail_transactions_02?acl=rw
           action:
             name: set_version
             value: latest
       dependencies:
-        - read-redshift-retail-ts-01
+        - read-redshift-retail-ts-02

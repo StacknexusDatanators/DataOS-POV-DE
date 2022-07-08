@@ -1,0 +1,32 @@
+version: v1beta1
+name: retaildatabase-rest    #service name
+type: service
+tags:
+  - syndicate
+  - segments
+  - service
+service:
+  replicas: 2
+  ingress:
+    enabled: true
+    stripPath: true
+    path: /retail/api/v1   # how your url going to be appeared.
+    noAuthentication: true
+  stack: beacon+rest
+  envs:
+    PGRST_OPENAPI_SERVER_PROXY_URI: https://flexible-buffalo.dataos.io/retail/api/v1
+                                    # environment url + path: /citybase/api/v1
+  beacon:
+    source:
+      type: database
+      name: retail
+      workspace: public
+  topology:
+  - name: database
+    type: input
+    doc: retail database connection
+  - name: rest-api
+    type: output
+    doc: serves up the citybase database as a RESTful API
+    dependencies:
+    - database
