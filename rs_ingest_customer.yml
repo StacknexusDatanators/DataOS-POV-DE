@@ -56,14 +56,14 @@ workflow:
                     sql: select * from customer_input
                     functions:
                     - name: drop
-                      columns: 
+                      columns:
                         - __metadata_dataos_run_mapper_id
                     - name: set_type
                       columns:
-                        birthdate: date
-                        age: integer
-                        number_of_children: integer
-                        annual_income: integer      
+                        birthdate: DATE
+                        age: INTEGER
+                        number_of_children: INTEGER
+                        annual_income: INTEGER
     - name: dataos-tool-from-rs
       spec:
         stack: toolbox
