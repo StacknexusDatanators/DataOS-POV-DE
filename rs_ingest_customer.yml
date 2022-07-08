@@ -7,7 +7,7 @@ tags:
   - retail
 workflow:
   dag:
-    - name: read-redshift-retail-customer-01
+    - name: read-redshift-retail-cust-01
       title: Read Redshift Retail Dataset
       description: Reads the data from amazon redshift
       spec:
@@ -33,24 +33,24 @@ workflow:
               - name: customer_input
                 dataset: dataos://redshiftstacknexus:public/customer
                 format: redshift
-                schema: dataos://thirdparty01:schemas/stacknexus/customer.avsc
+                
             logLevel: INFO
             outputs:
               - name: customer_output
                 depot: dataos://icebase:sample?acl=rw
             steps:
               - sink:
-                  - sequenceName: customer_input
-                    datasetName: retail_customer_01
-                    outputName: customer_output
-                    outputType: Iceberg
-                    description: customer data from redshift
-                    title: retail customer
-                    tags:
-                      - redshift
-                      - retail
-                    outputOptions:
-                      saveMode: overwrite
+                - sequenceName: changed_datatypes
+                  datasetName: retail_customer_01
+                  outputName: customer_output
+                  outputType: Iceberg
+                  description: customer data from redshift
+                  title: retail customer
+                  tags:
+                    - redshift
+                    - retail
+                  outputOptions:
+                    saveMode: overwrite
                 sequence:
                   - name: changed_datatypes
                     sql: select * from customer_input
@@ -60,10 +60,10 @@ workflow:
                         - __metadata_dataos_run_mapper_id
                     - name: set_type
                       columns:
-                        birthdate: DATE
-                        age: INTEGER
-                        number_of_children: INTEGER
-                        annual_income: INTEGER
+                        birthdate: timestamp
+                        age: int
+                        number_of_children: int
+                        annual_income: int
     - name: dataos-tool-from-rs
       spec:
         stack: toolbox
@@ -73,4 +73,4 @@ workflow:
             name: set_version
             value: latest
       dependencies:
-        - read-redshift-retail-customer-01
+        - read-redshift-retail-cust-01
