@@ -1,0 +1,11 @@
+version: v1beta1
+name: retailsdbs                                     # database name
+type: database
+description: citybase database for storing city sample data.
+tags:
+  - database
+database:
+  migrate:
+    includes:
+      - ./database/migrations
+    command: up

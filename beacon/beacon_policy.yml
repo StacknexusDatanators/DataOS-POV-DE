@@ -10,10 +10,8 @@ policy:
         - - "dataos:u:user"    # user operator can access API
     predicates:
       - "GET"
-      - "POST"
-      - "PUT"
       - "OPTIONS"              # user can use all CRUD operation if we allow them.
     objects:
       paths:
-        - "/retail/api/v1"   
+        - "/retailsdb/api/v1"   
     allow: true

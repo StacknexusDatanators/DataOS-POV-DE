@@ -27,12 +27,12 @@ workflow:
             logLevel: INFO
             outputs:
               - name: customer
-                depot: dataos://retaildb:public?acl=rw
+                depot: dataos://retailsdbsdatabase:public?acl=rw
                 driver: org.postgresql.Driver
             steps:
               - sink:
                   - sequenceName: input
-                    datasetName: retail
+                    datasetName: customer
                     outputName: customer
                     outputType: JDBC
                     outputOptions:
