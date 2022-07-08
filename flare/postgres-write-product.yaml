@@ -16,7 +16,7 @@ workflow:
         tags:
           - Connect
           - retail
-        stack: flare:2.0
+        stack: flare:3.0
         flare:
           job:
             explain: true
@@ -27,12 +27,12 @@ workflow:
             logLevel: INFO
             outputs:
               - name: product
-                depot: dataos://retaildatabase:public?acl=rw
+                depot: dataos://retailsdbsdatabase:public?acl=rw
                 driver: org.postgresql.Driver
             steps:
               - sink:
                   - sequenceName: input
-                    datasetName: retail
+                    datasetName: product
                     outputName: product
                     outputType: JDBC
                     outputOptions:
