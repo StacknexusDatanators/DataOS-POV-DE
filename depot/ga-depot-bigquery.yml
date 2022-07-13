@@ -17,6 +17,6 @@ depot:
         projectid: dataos-346613
         email: balaji@stacknexus.io
       files:
-        json_keyfile: ../../creds/dataos-346613-97989dfd4baa.json
+        json_keyfile: ./depot/secrets/dataos-346613-97989dfd4baa.json
   spec:                                              # Data source specific configurations
       project: dataos-346613
