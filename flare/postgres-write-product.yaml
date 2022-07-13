@@ -22,7 +22,7 @@ workflow:
             explain: true
             inputs:
               - name: input
-                dataset: dataos://icebase:sample/retail_product_02
+                dataset: dataos://icebase:sample/retail_product
                 format: iceberg
             logLevel: INFO
             outputs:

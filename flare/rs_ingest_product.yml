@@ -7,7 +7,7 @@ tags:
   - retail
 workflow:
   dag:
-    - name: read-redshift-retail-prod-01
+    - name: read-redshift-retail-prod
       title: Read Redshift Retail Dataset
       description: Reads the data from amazon redshift
       spec:
@@ -17,7 +17,7 @@ workflow:
         stack: flare:3.0
         envs:
           HERA_SSL: "false"
-          HERA_BASE_URL: "https://flexible-buffalo.dataos.app/hera"
+          HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
         flare:
           driver:
             coreLimit: 1200m
@@ -36,11 +36,11 @@ workflow:
             logLevel: INFO
             outputs:
               - name: product_output
-                depot: dataos://icebase:sample?acl=rw
+                depot: dataos://icebase:merchretail?acl=rw
             steps:
               - sink:
                   - sequenceName: product_input
-                    datasetName: retail_product_02
+                    datasetName: retail_product
                     outputName: product_output
                     outputType: Iceberg
                     description: product data from redshift
@@ -68,9 +68,9 @@ workflow:
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/retail_product_02?acl=rw
+          dataset: dataos://icebase:sample/retail_product?acl=rw
           action:
             name: set_version
             value: latest
       dependencies:
-        - read-redshift-retail-prod-01
+        - read-redshift-retail-prod

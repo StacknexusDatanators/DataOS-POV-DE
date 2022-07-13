@@ -9,7 +9,7 @@ tags:
   - retail
 workflow:
   dag:
-    - name: ga-visits-transform-01
+    - name: ga-visits-transform
       title: read visits from google analytics
       description: Reads data from google analytics for visits in streamlit
       spec:
@@ -19,7 +19,7 @@ workflow:
         stack: flare:3.0
         envs:
           HERA_SSL: "false"
-          HERA_BASE_URL: "https://flexible-buffalo.dataos.app/hera"
+          HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
         flare:
           driver:
             coreLimit: 1200m
@@ -33,16 +33,16 @@ workflow:
           job:
             inputs:
               - name: ga_input
-                dataset: dataos://icebase:sample/ga_session_dataset_retail
+                dataset: dataos://icebase:merchretail/ga_session_dataset
                 format: iceberg
             logLevel: INFO
             outputs:
               - name: ga_observability
-                depot: dataos://icebase:sample?acl=rw
+                depot: dataos://icebase:merchretail?acl=rw
             steps:
               - sink:
                   - sequenceName: ga_data_tranform
-                    datasetName: ga_observability_01
+                    datasetName: ga_observability
                     outputName: ga_observability
                     outputType: Iceberg
                     description: ga data for observability
@@ -62,7 +62,7 @@ workflow:
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/ga_observability_01?acl=rw
+          dataset: dataos://icebase:merchretail/ga_observability?acl=rw
           action:
             name: set_version
             value: latest

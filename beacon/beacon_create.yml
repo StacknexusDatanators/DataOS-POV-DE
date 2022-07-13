@@ -14,7 +14,7 @@ service:
     noAuthentication: true
   stack: beacon+rest
   envs:
-    PGRST_OPENAPI_SERVER_PROXY_URI: https://flexible-buffalo.dataos.app/retailsdb/api/v1
+    PGRST_OPENAPI_SERVER_PROXY_URI: https://frankly-suited-oryx.dataos.io/retailsdb/api/v1
   beacon:
     source:
       type: database
