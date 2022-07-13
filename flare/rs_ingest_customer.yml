@@ -14,10 +14,10 @@ workflow:
         tags:
           - redshift
           - connect
-        stack: flare:3.0
+        stack: flare:1.0
         envs:
-          HERA_SSL: "false"
-          HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
+          # HERA_SSL: "false"
+          # HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
         flare:
           driver:
             coreLimit: 1200m
@@ -31,21 +31,21 @@ workflow:
           job:
             inputs:
               - name: customer_input
-                dataset: dataos://redshiftstacknexus:public/customer
+                dataset: dataos://redshiftretail:public/customer
                 format: redshift
 
             logLevel: INFO
             outputs:
               - name: customer_output
-                depot: dataos://icebase:merchretail?acl=rw
+                depot: dataos://icebase:merchandise_retail?acl=rw
             steps:
               - sink:
                 - sequenceName: changed_datatypes
                   datasetName: retail_customer
                   outputName: customer_output
                   outputType: Iceberg
-                  description: customer data from redshift
-                  title: retail customer
+                  description: Customer data from redshift
+                  title: Retail Customer
                   tags:
                     - redshift
                     - retail
@@ -68,7 +68,7 @@ workflow:
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:merchretail/retail_customer?acl=rw
+          dataset: dataos://icebase:merchandise_retail/retail_customer?acl=rw
           action:
             name: set_version
             value: latest

@@ -1,7 +1,7 @@
 version: v1beta1
 name: wf-redshift-retail-ts
 type: workflow
-description: To read data from bigquery
+description: Products data from redshift
 tags:
   - redshift
   - retail
@@ -14,10 +14,10 @@ workflow:
         tags:
           - redshift
           - connect
-        stack: flare:3.0
+        stack: flare:1.0
         envs:
-          HERA_SSL: "false"
-          HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
+          # HERA_SSL: "false"
+          # HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
         flare:
           driver:
             coreLimit: 1200m
@@ -31,20 +31,20 @@ workflow:
           job:
             inputs:
               - name: transactions_input
-                dataset: dataos://redshiftstacknexus:public/transactions
+                dataset: dataos://redshiftretail:public/transactions
                 format: redshift
             logLevel: INFO
             outputs:
               - name: transactions_output
-                depot: dataos://icebase:merchretail?acl=rw
+                depot: dataos://icebase:merchandise_retail?acl=rw
             steps:
               - sink:
-                  - sequenceName: transactions_input
+                  - sequenceName: changed_datatypes
                     datasetName: retail_transactions
                     outputName: transactions_output
                     outputType: Iceberg
-                    description: transactions data from redshift
-                    title: retail transactions
+                    description: Transactions data from redshift
+                    title: Retail Transactions
                     tags:
                       - redshift
                       - retail
@@ -66,7 +66,7 @@ workflow:
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:merchretail/retail_transactions?acl=rw
+          dataset: dataos://icebase:merchandise_retail/retail_transactions?acl=rw
           action:
             name: set_version
             value: latest

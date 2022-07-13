@@ -1,7 +1,7 @@
 version: v1beta1
 name: wf-redshift-retail-prod
 type: workflow
-description: To read data from bigquery
+description: Products data from redshift
 tags:
   - redshift
   - retail
@@ -14,10 +14,10 @@ workflow:
         tags:
           - redshift
           - connect
-        stack: flare:3.0
+        stack: flare:1.0
         envs:
-          HERA_SSL: "false"
-          HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
+          # HERA_SSL: "false"
+          # HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
         flare:
           driver:
             coreLimit: 1200m
@@ -31,15 +31,15 @@ workflow:
           job:
             inputs:
               - name: product_input
-                dataset: dataos://redshiftstacknexus:public/product
+                dataset: dataos://redshiftretail:public/product
                 format: redshift
             logLevel: INFO
             outputs:
               - name: product_output
-                depot: dataos://icebase:merchretail?acl=rw
+                depot: dataos://icebase:merchandise_retail?acl=rw
             steps:
               - sink:
-                  - sequenceName: product_input
+                  - sequenceName: changed_datatypes
                     datasetName: retail_product
                     outputName: product_output
                     outputType: Iceberg
@@ -63,12 +63,11 @@ workflow:
                         productstock: int
 
 
-
     - name: dataos-tool-from-rs
       spec:
         stack: toolbox
         toolbox:
-          dataset: dataos://icebase:sample/retail_product?acl=rw
+          dataset: dataos://icebase:merchandise_retail/retail_product?acl=rw
           action:
             name: set_version
             value: latest
