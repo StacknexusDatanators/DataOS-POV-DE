@@ -16,18 +16,18 @@ workflow:
         tags:
           - Connect
           - retail
-        stack: flare:2.0
+        stack: flare:1.0
         flare:
           job:
             explain: true
             inputs:
               - name: input
-                dataset: dataos://icebase:merchretail/retail_customer
+                dataset: dataos://icebase:merchandise_retail/retail_customer
                 format: iceberg
             logLevel: INFO
             outputs:
               - name: customer
-                depot: dataos://retailsdbsdatabase:public?acl=rw
+                depot: dataos://retaildatabase:public?acl=rw
                 driver: org.postgresql.Driver
             steps:
               - sink:

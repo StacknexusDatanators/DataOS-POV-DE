@@ -1,0 +1,17 @@
+version: v1beta1
+name: streamlit
+type: service
+service:
+  title: streamlit poc UI
+  replicas: 1
+  servicePort: 8501
+  ingress:
+    enabled: true
+    noAuthentication: true
+    path: /streamlit
+    stripPath: true
+  stack: alpha
+  envs:
+    LOG_LEVEL: info
+  alpha:
+    image: sndatanator/streamlit_retail:latest

@@ -1,6 +1,6 @@
 ---
 version: v1beta1
-name: retail-postgres-write
+name: retail-postgres-prod
 type: workflow
 tags:
   - bq
@@ -9,25 +9,25 @@ description: This job read and write data from to postgres
 title: Read Write Postgres
 workflow:
   dag:
-    - name: retaildb-write-postgres
+    - name: retaildb-write-prod
       title: Write Postgres
       description: This job write data from postgres
       spec:
         tags:
           - Connect
           - retail
-        stack: flare:3.0
+        stack: flare:1.0
         flare:
           job:
             explain: true
             inputs:
               - name: input
-                dataset: dataos://icebase:sample/retail_product
+                dataset: dataos://icebase:merchandise_retail/retail_product
                 format: iceberg
             logLevel: INFO
             outputs:
               - name: product
-                depot: dataos://retailsdbsdatabase:public?acl=rw
+                depot: dataos://retaildatabase:public?acl=rw
                 driver: org.postgresql.Driver
             steps:
               - sink:

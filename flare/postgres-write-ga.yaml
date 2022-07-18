@@ -1,6 +1,6 @@
 ---
 version: v1beta1
-name: retail-postgres-ts
+name: retail-postgres-ga
 type: workflow
 tags:
   - bq
@@ -9,7 +9,7 @@ description: This job read and write data from to postgres
 title: Read Write Postgres
 workflow:
   dag:
-    - name: retaildb-write-ts
+    - name: retaildb-write-ga
       title: Write Postgres
       description: This job write data from postgres
       spec:
@@ -22,18 +22,18 @@ workflow:
             explain: true
             inputs:
               - name: input
-                dataset: dataos://icebase:merchandise_retail/retail_transactions
+                dataset: dataos://icebase:merchandise_retail/ga_observability
                 format: iceberg
             logLevel: INFO
             outputs:
-              - name: transactions
+              - name: ga_observability
                 depot: dataos://retaildatabase:public?acl=rw
                 driver: org.postgresql.Driver
             steps:
               - sink:
                   - sequenceName: input
-                    datasetName: transactions
-                    outputName: transactions
+                    datasetName: ga_observability
+                    outputName: ga_observability
                     outputType: JDBC
                     outputOptions:
                       saveMode: overwrite

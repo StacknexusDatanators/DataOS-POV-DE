@@ -13,5 +13,5 @@ policy:
       - "OPTIONS"              # user can use all CRUD operation if we allow them.
     objects:
       paths:
-        - "/retailsdb/api/v1"   
+        - "/retaildb/api/v1"   
     allow: true
