@@ -14,4 +14,4 @@ service:
   envs:
     LOG_LEVEL: info
   alpha:
-    image: sndatanator/streamlit_retail:latest
+    image: sndatanator/streamlit_retail:v6
