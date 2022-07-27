@@ -62,4 +62,4 @@ workflow:
             name: set_version
             value: latest
       dependencies:
-        - read-bigquery-retail
+        - read-bigquery-mba
