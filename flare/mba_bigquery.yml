@@ -32,14 +32,14 @@ workflow:
           job:
             inputs:
               - name: mba_input
-                dataset: dataos://gabigquery:mba_01/mbaout
+                dataset: dataos://gabigquery:gadata/mbaout
             logLevel: INFO
             outputs:
               - name: mba_dataset
                 depot: dataos://icebase:merchandise_retail?acl=rw
             steps:
               - sink:
-                  - sequenceName: mba_ingest
+                  - sequenceName: mba_input
                     datasetName: mba_dataset
                     outputName: mba_dataset
                     outputType: Iceberg
@@ -50,9 +50,6 @@ workflow:
                       - marketbasketanalysis
                     outputOptions:
                       saveMode: overwrite
-                sequence:
-                  - name: mba_ingest
-                    sql: select * FROM mba_input
     - name: dataos-tool-from-bq
       spec:
         stack: toolbox
