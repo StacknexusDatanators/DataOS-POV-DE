@@ -6,16 +6,19 @@ workspace: public
 tags:
   - redshift
   - retail
+#compute: runnable-default
 workflow: 
   dag:
     - name: read-redshift-retail-cust
       title: Read Redshift Retail Dataset
       description: Reads the data from amazon redshift
       spec:
+        
         tags:
           - redshift
           - connect
         stack: flare:3.0
+        compute: runnable-default
         envs:
           # HERA_SSL: "false"
           # HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"
@@ -68,6 +71,7 @@ workflow:
     - name: dataos-tool-from-rs
       spec:
         stack: toolbox
+        compute: runnable-default
         toolbox:
           dataset: dataos://icebase:merchandise_retail/retail_customer?acl=rw
           action:
