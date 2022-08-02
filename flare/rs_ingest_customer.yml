@@ -1,11 +1,12 @@
-version: v1beta1
+version: v1
 name: wf-redshift-retail
 type: workflow
-description: To read data from bigquery
+description: To read retail customer data from redshift
+workspace: public
 tags:
   - redshift
   - retail
-workflow:
+workflow: 
   dag:
     - name: read-redshift-retail-cust
       title: Read Redshift Retail Dataset
@@ -14,7 +15,7 @@ workflow:
         tags:
           - redshift
           - connect
-        stack: flare:1.0
+        stack: flare:3.0
         envs:
           # HERA_SSL: "false"
           # HERA_BASE_URL: "https://frankly-suited-oryx.dataos.io/hera"

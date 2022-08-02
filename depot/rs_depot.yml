@@ -1,4 +1,4 @@
-version: v1beta1
+version: v1
 name: "redshiftretail"
 type: depot
 tags:
@@ -8,9 +8,9 @@ depot:
   type: REDSHIFT
   description: Redshift retail sample data
   spec:
-    host: XYZ
+    host: stacknexus-redshift.cccfst2pznzg.us-east-2.redshift.amazonaws.com
     port: 5439
-    database: xyz
+    database: stacknexus
     bucket: tmdc-dataos-rubik
     relativePath: development/redshift/stacknexus/
   external: true
@@ -18,7 +18,5 @@ depot:
     - acl: rw
       type: key-value-properties
       data:
-        username: "****"
-        password: "***"
-        awsaccesskeyid: ****
-        awssecretaccesskey: ***
+        username: "stacknexus"
+        password: "Stacknexus123"
